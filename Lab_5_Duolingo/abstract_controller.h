@@ -1,7 +1,16 @@
 #pragma once
 
-class AbstractController {
+#include <QObject>
+#include <QMenu>
+#include <QAction>
+
+class AbstractController : public QObject {
+  Q_OBJECT
  public:
+  virtual void ManageDifficultyMenu(QMenu* difficulty_menu) = 0;
+  virtual void ManageSoundMenu(QMenu* sound_menu) = 0;
+  virtual void ManageResetProgressAction(QAction* reset_progress_action) = 0;
+  virtual void ShowResetProgressDialog() = 0;
  //  enum class DifficultyMode {
  //    easy,
  //    medium,
