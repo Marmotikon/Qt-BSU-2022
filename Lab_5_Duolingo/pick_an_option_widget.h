@@ -1,21 +1,26 @@
 #pragma once
 
-#include <QWidget>
-#include <QLabel>
 #include <QButtonGroup>
-#include <QPushButton>
 #include <QGridLayout>
-// #include <QTextBlock>
+#include <QLabel>
+#include <QPushButton>
+#include <QWidget>
 
 class PickAnOptionWidget : public QWidget {
  public:
   PickAnOptionWidget();
+
+ signals:
+  void CheckAnswerButtonPressed();
+  void NextQuestionButtonPressed();
+  void GoToMainPageButtonPressed();
 
  private:
   QGridLayout* layout_;
   QLabel* task_condition_;
   QLabel* task_text_;
   QButtonGroup* variants_;
-  QPushButton* next_question_;
-  QPushButton* go_to_main_page_;
+  QPushButton* check_answer_button_;
+  QPushButton* next_question_button_;
+  QPushButton* go_to_main_page_button_;
 };

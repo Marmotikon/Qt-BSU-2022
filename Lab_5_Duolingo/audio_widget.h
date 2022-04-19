@@ -6,9 +6,9 @@
 #include <QPushButton>
 #include <QWidget>
 
-class InputAnswerWidget : public QWidget {
+class AudioWidget : public QWidget {
  public:
-  InputAnswerWidget();
+  AudioWidget();
 
  signals:
   void CheckAnswerButtonPressed();
@@ -18,7 +18,7 @@ class InputAnswerWidget : public QWidget {
  private:
   QGridLayout* layout_;
   QLabel* task_condition_;
-  QLabel* task_text_;
+  // todo audio task
   QLineEdit* answer_;
   QPushButton* check_answer_button_;
   QPushButton* next_question_button_;
