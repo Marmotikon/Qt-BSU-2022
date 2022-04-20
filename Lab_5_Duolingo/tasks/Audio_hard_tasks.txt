@@ -1,39 +1,7 @@
-5
+1
 
-Audio hard question №1.
-4
-wrong
-rwong
-ongwr
-right
-right
+I like this project but hate this ___.
+1
+:sounds/i_like_this_project.wav
+architecture
 
-Audio hard question №2.
-3
-wrong
-right
-ongwr
-right
-
-Audio hard question №3.
-2
-right
-wrong
-right
-
-Audio hard question №4.
-5
-wrong
-rwong
-right
-ongwr
-worng
-right
-
-Audio hard question №5.
-4
-right
-wrong
-wronk
-wronc
-right
