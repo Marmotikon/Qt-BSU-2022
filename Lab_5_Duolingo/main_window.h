@@ -31,6 +31,8 @@ class MainWindow : public QMainWindow {
   AudioWidget* GetAudio();
 
   void SetProgressPoints(QString);
+  void UpdateAfterCheck(bool was_right);
+  void UpdateAttempts();
 
   void Update();
   // QMenu* GetMenu();
@@ -45,10 +47,9 @@ class MainWindow : public QMainWindow {
  private:
   AbstractController* controller_;
 
-  // QMenu* menu_; todo
-  // QHBoxLayout* main_layout_;
   QLabel* progress_points_;
   QProgressBar* progress_bar_;
+  QLabel* attempts_;
 
   QWidget* central_widget_;
   QVBoxLayout* central_layout_;
@@ -57,4 +58,7 @@ class MainWindow : public QMainWindow {
   PickAnOptionWidget* pick_an_option_widget_;
   InputAnswerWidget* input_answer_widget_;
   AudioWidget* audio_widget_;
+
+  int attempts_count_;
+  int tasks_to_complete_;
 };

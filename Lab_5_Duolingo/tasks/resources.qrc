@@ -1,0 +1,7 @@
+<RCC>
+    <qresource>
+        <file>PickAnOption_easy_tasks.txt</file>
+        <file>PickAnOption_medium_tasks.txt</file>
+        <file>PickAnOption_hard_tasks.txt</file>
+    </qresource>
+</RCC>

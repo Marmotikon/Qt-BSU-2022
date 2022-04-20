@@ -11,6 +11,7 @@ MainWindow::MainWindow(AbstractController* controller) :
     // main_layout_(new QHBoxLayout()),
     progress_points_(new QLabel("Набранные очки: ...")),
     progress_bar_(new QProgressBar(this)),
+    attempts_(new QLabel("Оставшиеся попытки: ...")),
 
     central_widget_(new QWidget(this)),
     central_layout_(new QVBoxLayout()),
@@ -37,6 +38,7 @@ MainWindow::MainWindow(AbstractController* controller) :
   central_layout_->addWidget(input_answer_widget_);
   central_layout_->addWidget(audio_widget_);
   central_layout_->addWidget(progress_bar_);
+  central_layout_->addWidget(attempts_);
 
   central_layout_->setStretch(0, 1);
   central_layout_->setStretch(1, 10);
@@ -44,6 +46,7 @@ MainWindow::MainWindow(AbstractController* controller) :
   central_layout_->setStretch(3, 10);
   central_layout_->setStretch(4, 10);
   central_layout_->setStretch(5, 2);
+  central_layout_->setStretch(6, 1);
 
   setCentralWidget(central_widget_);
   central_widget_->setLayout(central_layout_);
@@ -126,37 +129,50 @@ void MainWindow::CreateMenu() {
 }
 
 void MainWindow::GoToMainPage() {
+  menuBar()->show();
   main_page_widget_->show();
   pick_an_option_widget_->hide();
   input_answer_widget_->hide();
   audio_widget_->hide();
   progress_bar_->hide();
+  attempts_->hide();
 }
 
 void MainWindow::GoToPickAnOption() {
+  attempts_count_ = 3;
+  tasks_to_complete_ = 10;
+  progress_bar_->setValue(0);
+  progress_bar_->setMaximum(tasks_to_complete_);
+  UpdateAttempts();
+  menuBar()->hide();
   main_page_widget_->hide();
   pick_an_option_widget_->show();
   input_answer_widget_->hide();
   audio_widget_->hide();
   progress_bar_->show();
+  attempts_->show();
 
   pick_an_option_widget_->NextQuestionButtonPressed();
 }
 
 void MainWindow::GoToInputAnswer() {
+  menuBar()->hide();
   main_page_widget_->hide();
   pick_an_option_widget_->hide();
   input_answer_widget_->show();
   audio_widget_->hide();
   progress_bar_->show();
+  attempts_->show();
 }
 
 void MainWindow::GoToAudio() {
+  menuBar()->hide();
   main_page_widget_->hide();
   pick_an_option_widget_->hide();
   input_answer_widget_->hide();
   audio_widget_->show();
   progress_bar_->show();
+  attempts_->show();
 }
 
 MainPageWidget* MainWindow::GetMainPage() {
@@ -180,4 +196,26 @@ void MainWindow::Update() {
 
 void MainWindow::SetProgressPoints(QString string) {
   progress_points_->setText("Текущий прогресс: " + string);
+}
+void MainWindow::UpdateAfterCheck(bool was_right) {
+  if (was_right) {
+    progress_bar_->setValue(progress_bar_->value() + 1);
+    if (progress_bar_->value() == tasks_to_complete_) {
+      controller_->Win();
+    }
+    // todo sound
+  } else {
+    attempts_count_--;
+    if (attempts_count_ == 0) {
+      controller_->Lose();
+      // GoToPickAnOption();
+    } else {
+      UpdateAttempts();
+    }
+  }
+}
+void MainWindow::UpdateAttempts() {
+  QString string = "Оставшиеся попытки: ";
+  string += std::to_string(attempts_count_).c_str();
+  attempts_->setText(string);
 }

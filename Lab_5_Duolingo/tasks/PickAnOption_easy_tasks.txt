@@ -1,0 +1,39 @@
+5
+
+Easy question №1.
+4
+wrong
+rwong
+ongwr
+right
+3
+
+Easy question №2.
+3
+wrong
+right
+ongwr
+1
+
+Easy question №3.
+2
+right
+wrong
+0
+
+Easy question №4.
+5
+wrong
+rwong
+right
+ongwr
+worng
+2
+
+Easy question №5.
+4
+right
+wrong
+wronk
+wronc
+0

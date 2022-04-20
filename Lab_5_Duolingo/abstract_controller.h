@@ -11,29 +11,8 @@ class AbstractController : public QObject {
   virtual void ManageSoundMenu(QMenu* sound_menu) = 0;
   virtual void ConnectResetProgressAction(QAction* reset_progress_action) = 0;
   virtual void ShowResetProgressDialog() = 0;
-  // virtual void ConnectMainPageButtons() = 0;
-  // virtual void ConnectPickAnOptionButtons() = 0;
-  // virtual void ConnectInputAnswerButtons() = 0;
-  // virtual void ConnectAudioButtons() = 0;
- //  enum class DifficultyMode {
- //    easy,
- //    medium,
- //    hard
- //  };
- //
- //  enum class SoundMode {
- //    on,
- //    off
- //  };
- //
- //  enum class WindowMode {
- //    main_menu,
- //    pick_an_option,
- //    input_answer,
- //    audio,
- //    mixed
- //  };
-
+  virtual void Win() = 0;
+  virtual void Lose() = 0;
  public:
   // AbstractController() = default;
 

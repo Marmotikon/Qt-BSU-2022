@@ -17,6 +17,7 @@ Controller::Controller() : model_(std::make_unique<Model>()),
   ConnectPickAnOptionButtons();
   ConnectInputAnswerButtons();
   ConnectAudioButtons();
+
   RefreshView();
 }
 
@@ -113,7 +114,9 @@ void Controller::ShowResetProgressDialog() {
   if (answer == QMessageBox::Yes) {
     model_->ResetProgressPoints();
     view_->SetProgressPoints(model_->GetProgressPoints());
-    view_->statusBar()->showMessage("points was reseted");
+    view_->statusBar()->showMessage("Начнем с начала)");
+  } else {
+    view_->statusBar()->showMessage("Это было опасно)");
   }
 }
 
@@ -135,15 +138,12 @@ void Controller::ConnectMainPageButtons() {
 
 void Controller::ConnectPickAnOptionButtons() {
   auto* widget = view_->GetPickAnOption();
-  connect(widget, &PickAnOptionWidget::CheckAnswerButtonPressed, this, [this] {
-    model_->AddProgressPoints(1);
-    view_->SetProgressPoints(model_->GetProgressPoints());
+  connect(widget, &PickAnOptionWidget::CheckAnswerButtonPressed, this, [=] {
+    widget->BlockButtons();
+    view_->UpdateAfterCheck(widget->CheckAnswer());
   });
-  connect(widget, &PickAnOptionWidget::NextQuestionButtonPressed, this, [=] {
-    widget->SetTaskCondition("aaaaaaaa");
-    widget->SetTaskText("bbbbbbb");
-    widget->SetVariants(3, {"a", "b", "c"});
-  });
+  connect(widget, &PickAnOptionWidget::NextQuestionButtonPressed, this,
+          &Controller::PickAnOptionNextTask);
   connect(widget, &PickAnOptionWidget::GoToMainPageButtonPressed, this, [this] {
     view_->GoToMainPage();
   });
@@ -177,5 +177,27 @@ void Controller::ConnectAudioButtons() {
 
 void Controller::RefreshView() {
   view_->SetProgressPoints(model_->GetProgressPoints());
+  // view_->Update();
+}
+
+void Controller::PickAnOptionNextTask() {
+  auto widget = view_->GetPickAnOption();
+  std::vector<QString> task_strings = model_->GetPickAnOptionTask();
+  widget->SetTaskText(task_strings.at(0));
+  widget->SetRightAnswer(task_strings.at(task_strings.size() - 1).toInt());
+  task_strings.erase(task_strings.begin());
+  task_strings.erase(--task_strings.end());
+  widget->SetVariants(task_strings);
+  widget->UpdateView();
+}
+
+void Controller::Win() {
+  view_->statusBar()->showMessage("Победа победа куриный ужин)");
+  view_->GoToMainPage();
+}
+
+void Controller::Lose() {
+  view_->statusBar()->showMessage("Не везет с английским, повезет, если не станешь дворником)");
+  view_->GoToMainPage();
 }
 

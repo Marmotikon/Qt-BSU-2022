@@ -23,6 +23,10 @@ class Controller : public AbstractController {
   void ConnectInputAnswerButtons();
   void ConnectAudioButtons();
 
+  void PickAnOptionNextTask();
+
+  void Win() override;  // todo
+  void Lose() override;  // todo
 
  private:
   void RefreshView();

@@ -1,0 +1,31 @@
+4
+
+Medium question №1.
+4
+Wwrong
+wrWong
+ongwrW
+right!
+3
+
+Medium question №2.
+3
+Wrong
+right!
+Wongwr
+1
+
+Medium question №3.
+2
+right!
+wrongG
+0
+
+Medium question №4.
+5
+wronNg
+rwonWg
+right!
+Oongwr
+woRrng
+2

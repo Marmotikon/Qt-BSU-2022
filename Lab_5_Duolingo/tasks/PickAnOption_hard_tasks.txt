@@ -1,0 +1,22 @@
+3
+
+Hard question №1.
+4
+WWRONG
+WRWONG
+ONGWRR
+right!!!
+3
+
+Hard question №2.
+3
+WRONG
+right!!!
+WONGWR
+1
+
+Hard question №3.
+2
+right!!!
+WRONG
+0
