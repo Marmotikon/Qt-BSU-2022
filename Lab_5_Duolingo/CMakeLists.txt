@@ -16,17 +16,19 @@ find_package(Qt6 COMPONENTS
         REQUIRED)
 
 add_executable(duolingo
+        controller/abstract_controller.h
+        controller/controller.cpp
         main.cpp
-        main_window.cpp
-        abstract_controller.h
-        controller.cpp
-        model.cpp
-        pick_an_option_widget.cpp
-        input_answer_widget.cpp
-        audio_widget.cpp
-        main_page_widget.cpp
-        resources.qrc constants.h)
-
+        model/constants.h
+        model/model.cpp
+        resources.qrc
+        view/main_window.cpp
+        view/pick_an_option_widget.cpp
+        view/input_answer_widget.cpp
+        view/audio_widget.cpp
+        view/main_page_widget.cpp
+        view/custom_widget.cpp
+        model/task.cpp model/task.h)
 target_link_libraries(duolingo
         Qt::Core
         Qt::Gui

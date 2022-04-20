@@ -3,6 +3,15 @@
         <file>tasks/PickAnOption_easy_tasks.txt</file>
         <file>tasks/PickAnOption_medium_tasks.txt</file>
         <file>tasks/PickAnOption_hard_tasks.txt</file>
+
+        <file>tasks/InputAnswer_easy_tasks.txt</file>
+        <file>tasks/InputAnswer_medium_tasks.txt</file>
+        <file>tasks/InputAnswer_hard_tasks.txt</file>
+
+        <file>tasks/Audio_easy_tasks.txt</file>
+        <file>tasks/Audio_medium_tasks.txt</file>
+        <file>tasks/Audio_hard_tasks.txt</file>
+
         <file>images/icon.jpg</file>
         <file>sounds/answer_is_right.wav</file>
         <file>sounds/answer_is_wrong.wav</file>

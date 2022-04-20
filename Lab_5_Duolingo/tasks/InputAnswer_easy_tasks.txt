@@ -1,0 +1,22 @@
+5
+
+Easy №1. Write "aboba"
+0
+aboba
+
+Easy №2. Write "bob"
+0
+bob
+
+Easy №3. Write "kek"
+0
+kek
+
+Easy №4. Write "miay"
+0
+miau
+
+Easy №5. Write "lalala"
+0
+lalala
+

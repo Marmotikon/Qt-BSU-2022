@@ -1,18 +1,18 @@
 #pragma once
 
-#include <QButtonGroup>
+#include <QWidget>
 #include <QGridLayout>
 #include <QLabel>
+#include <QButtonGroup>
 #include <QPushButton>
-#include <QWidget>
 
-class PickAnOptionWidget : public QWidget {
-  Q_OBJECT
+class CustomWidget : public QWidget {
+ Q_OBJECT
  public:
-  PickAnOptionWidget();
+  // PickAnOptionWidget();
 
-  void SetTaskCondition(QString string);
-  void SetVariants(std::vector<QString> strings);
+  void SetTaskCondition(const QString& string);
+  void SetVariants(const std::vector<QString>& variant_texts);
 
   void UpdateView();
   void BlockButtons();

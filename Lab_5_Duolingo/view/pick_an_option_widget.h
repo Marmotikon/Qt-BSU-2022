@@ -11,12 +11,13 @@ class PickAnOptionWidget : public QWidget {
  public:
   PickAnOptionWidget();
 
-  void SetTaskCondition(QString string);
-  void SetVariants(std::vector<QString> strings);
+  void SetTaskCondition(const QString& string);
+  void SetVariants(const std::vector<QString>& strings);
 
-  void UpdateView();
-  void BlockButtons();
-  QString GetChosenVariant();
+  void UpdateForNextTask();
+  void UpdateAfterCheck();
+  QString GetAnswer();
+
  signals:
   void CheckAnswerButtonPressed();
   void NextQuestionButtonPressed();
@@ -26,10 +27,10 @@ class PickAnOptionWidget : public QWidget {
   QGridLayout* layout_;
   QLabel* task_text_;
   QLabel* task_condition_;
-  QButtonGroup* variants_;
   QPushButton* check_answer_button_;
   QPushButton* next_question_button_;
   QPushButton* go_to_main_page_button_;
 
+  QButtonGroup* variants_;
   int variants_count_;
 };

@@ -1,0 +1,22 @@
+5
+
+Medium №1. Write "ABBA"
+0
+ABBA
+
+Medium №2. Write "LERA"
+0
+LERA
+
+Medium №3. Write "CRUSH"
+0
+CRUSH
+
+Medium №4. Write "REALLY"
+0
+REALLY
+
+Medium №5. Write " "
+0
+ 
+

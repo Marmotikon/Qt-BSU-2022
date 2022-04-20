@@ -1,0 +1,21 @@
+5
+
+Hard №1. Write "somebody once told me"
+0
+somebody once told me
+
+Hard №2. Write "dooooooode"
+0
+dooooooode
+
+Hard №3. Write "3455432lol0"
+0
+3455432lol0
+
+Hard №4. Write "gucci gang gucci gang gucci gang gucci gang"
+0
+gucci gang gucci gang gucci gang gucci gang
+
+Hard №5. Write "`"
+0
+`

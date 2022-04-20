@@ -6,20 +6,20 @@ Wwrong
 wrWong
 ongwrW
 right!
-3
+right!
 
 Medium question №2.
 3
 Wrong
 right!
 Wongwr
-1
+right!
 
 Medium question №3.
 2
 right!
 wrongG
-0
+right!
 
 Medium question №4.
 5
@@ -28,4 +28,4 @@ rwonWg
 right!
 Oongwr
 woRrng
-2
+right!

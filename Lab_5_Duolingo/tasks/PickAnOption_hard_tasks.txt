@@ -6,17 +6,17 @@ WWRONG
 WRWONG
 ONGWRR
 right!!!
-3
+right!!!
 
 Hard question №2.
 3
 WRONG
 right!!!
 WONGWR
-1
+right!!!
 
 Hard question №3.
 2
 right!!!
 WRONG
-0
+right!!!
