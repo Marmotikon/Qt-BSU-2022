@@ -17,6 +17,7 @@ class Task {
   void SetDifficulty(const QString& difficulty);
   int GetCorrectNeeded();
   int GetWinPoints();
+  const QString& GetCorrectAnswer();
 
  private:
   std::vector<QString> conditions_;

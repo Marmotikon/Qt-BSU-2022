@@ -55,4 +55,7 @@ int Task::GetCorrectNeeded() {
 int Task::GetWinPoints() {
   return constants::kWinPoints.at(mode_).at(difficulty_);
 }
+const QString& Task::GetCorrectAnswer() {
+  return answers_.at(current_task_index_);
+}
 

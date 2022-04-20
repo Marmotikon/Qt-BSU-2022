@@ -240,17 +240,24 @@ int Controller::GetCorrectNeeded() {
 
 void Controller::OnCorrect() {
   view_->OnCorrect();
+  view_->statusBar()->showMessage("Ваш ответ правильный");
 }
 
 void Controller::OnWrong() {
   view_->OnWrong();
+  view_->statusBar()->showMessage("Правильный ответ: " + model_->GetCorrectAnswer());
 }
 
 void Controller::OnWin() {
   view_->OnWin();
+  view_->statusBar()->showMessage(
+      "Победа победа куриный ужин) Твой ответ правильный");
+
 }
 
 void Controller::OnLose() {
   view_->OnLose();
+  view_->statusBar()->showMessage(
+      "Надеюсь ты хоть не у Ситниковой) Правильный ответ: "
+      + model_->GetCorrectAnswer());
 }
-

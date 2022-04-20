@@ -191,16 +191,14 @@ void MainWindow::OnWrong() {
 
 void MainWindow::OnWin() {
   win_sound_->play();
-  statusBar()->showMessage("Победа победа куриный ужин)");
-  GoToMainPage();  // todo
+  GoToMainPage();
   Update();
   // GoToWinPage(); todo
 }
 
 void MainWindow::OnLose() {
   lose_sound_->play();
-  statusBar()->showMessage("Надеюсь ты хоть не у Ситниковой)");
-  GoToMainPage();  // todo
+  GoToMainPage();
   Update();
   // GoToLosePage(); todo
 }

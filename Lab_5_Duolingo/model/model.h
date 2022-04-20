@@ -25,6 +25,7 @@ class Model : public QObject {
   void CheckAnswer(const QString& answer);
   void StartNewExercise(const QString& task_mode);
   void SwitchToNextTask();
+  const QString& GetCorrectAnswer();
 
   // settings
   void SetDifficultyMode(const QString& value);

@@ -97,3 +97,6 @@ void Model::TasksInit() {
 int Model::GetCorrectNeeded() {
   return current_task_->GetCorrectNeeded();
 }
+const QString& Model::GetCorrectAnswer() {
+  return current_task_->GetCorrectAnswer();
+}
