@@ -1,8 +1,8 @@
 #pragma once
 
-#include <QObject>
-#include <QMenu>
 #include <QAction>
+#include <QMenu>
+#include <QObject>
 #include <QPushButton>
 
 class AbstractController : public QObject {
@@ -15,25 +15,16 @@ class AbstractController : public QObject {
 
   virtual void ShowResetProgressDialog() = 0;
   virtual void ShowExitDialog() = 0;
-  virtual void Win() = 0;
-  virtual void Lose() = 0;
 
   virtual bool IsSoundOn() = 0;
   virtual QString GetProgressPoints() = 0;
- public:
-  // AbstractController() = default;
+  virtual int GetAttemptsRemained() = 0;
+  virtual int GetCurrentCorrectCount() = 0;
+  virtual int GetCorrectNeeded() = 0;
 
-  // virtual void SetDifficultyMode(DifficultyMode new_mode);
-  // virtual DifficultyMode GetDifficulty() const { return DifficultyMode::easy; };
-  //
-  // virtual void SetSoundMode(SoundMode new_mode) { SoundMode d = new_mode; };
-  // virtual SoundMode GetSound() const { return SoundMode::on; };
-  //
-  // virtual void SetWindowMode(WindowMode new_mode) { WindowMode d = new_mode; };
-  // virtual WindowMode GetWindow() const { return WindowMode::main_menu; };
-
- private:
-  // DifficultyMode difficulty_mode_{DifficultyMode::easy};
-  // SoundMode sound_mode_{SoundMode::on};
-  // WindowMode window_mode_{WindowMode::main_menu};
+  virtual void OnCorrect() = 0;
+  virtual void OnWrong() = 0;
+  virtual void OnWin() = 0;
+  virtual void OnLose() = 0;
 };
+

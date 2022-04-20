@@ -1,14 +1,14 @@
 #include "controller.h"
 
-#include <QActionGroup>
 #include <QAction>
+#include <QActionGroup>
 #include <QString>
 #include <QMessageBox>
 
+#include "audio_widget.h"
+#include "input_answer_widget.h"
 #include "main_page_widget.h"
 #include "pick_an_option_widget.h"
-#include "input_answer_widget.h"
-#include "audio_widget.h"
 
 Controller::Controller() : model_(std::make_unique<Model>(this)),
     view_(std::make_unique<MainWindow>(this)) {
@@ -39,24 +39,24 @@ void Controller::ManageDifficultyMenu(QMenu* difficulty_menu) {
   connect(set_easy_difficulty, &QAction::triggered, this,
           [this] {
             model_->SetDifficultyMode("easy");
-            view_->statusBar()->showMessage("easy");
+            view_->statusBar()->showMessage("Легче - не значит проще)");
           });
   connect(set_medium_difficulty, &QAction::triggered, this,
           [this] {
             model_->SetDifficultyMode("medium");
-            view_->statusBar()->showMessage("medium");
+            view_->statusBar()->showMessage("Не определился?)");
           });
   connect(set_hard_difficulty, &QAction::triggered, this,
           [this] {
             model_->SetDifficultyMode("hard");
-            view_->statusBar()->showMessage("hard");
+            view_->statusBar()->showMessage("Не darksouls конечно, но..)");
           });
 
   if (model_->GetDifficultyMode() == "easy") {
     set_easy_difficulty->setChecked(true);
   } else if (model_->GetDifficultyMode() == "medium") {
     set_medium_difficulty->setChecked(true);
-  } else {
+  } else {  // hard
     set_hard_difficulty->setChecked(true);
   }
 }
@@ -129,7 +129,10 @@ void Controller::ShowExitDialog() {
 void Controller::ConnectMainPageButtons() {
   auto* widget = view_->GetMainPage();
   connect(widget, &MainPageWidget::PickAnOptionButtonPressed, this, [this] {
+    model_->StartNewPickAnOption();
     view_->GoToPickAnOption();
+    PickAnOptionNextTask();
+    view_->Update();
   });
   connect(widget, &MainPageWidget::InputAnswerButtonPressed, this, [this] {
     view_->GoToInputAnswer();
@@ -146,7 +149,8 @@ void Controller::ConnectPickAnOptionButtons() {
   auto* widget = view_->GetPickAnOption();
   connect(widget, &PickAnOptionWidget::CheckAnswerButtonPressed, this, [=] {
     widget->BlockButtons();
-    view_->UpdateAfterCheck(widget->CheckAnswer());
+    model_->PickAnOptionCheckAnswer(widget->GetChosenVariant());
+    view_->Update();
   });
   connect(widget, &PickAnOptionWidget::NextQuestionButtonPressed, this,
           &Controller::PickAnOptionNextTask);
@@ -183,25 +187,10 @@ void Controller::ConnectAudioButtons() {
 
 void Controller::PickAnOptionNextTask() {
   auto widget = view_->GetPickAnOption();
-  std::vector<QString> task_strings = model_->GetPickAnOptionTask();
-  widget->SetTaskText(task_strings.at(0));
-  widget->SetRightAnswer(task_strings.at(task_strings.size() - 1).toInt());
-  task_strings.erase(task_strings.begin());
-  task_strings.erase(--task_strings.end());
-  widget->SetVariants(task_strings);
+  model_->PickAnOptionNextTask();
+  widget->SetTaskCondition(model_->GetPickAnOptionCondition());
+  widget->SetVariants(model_->GetPickAnOptionVariants());
   widget->UpdateView();
-}
-
-void Controller::Win() {
-  view_->statusBar()->showMessage("Победа победа куриный ужин)");
-  model_->AddProgressPoints(1);
-  view_->GoToMainPage();
-  view_->Update();
-}
-
-void Controller::Lose() {
-  view_->statusBar()->showMessage("Надеюсь ты хоть не у Ситниковой)");
-  view_->GoToMainPage();
 }
 
 bool Controller::IsSoundOn() {
@@ -212,5 +201,30 @@ QString Controller::GetProgressPoints() {
   return model_->GetProgressPoints();
 }
 
+int Controller::GetAttemptsRemained() {
+  return model_->GetAttemptsRemained();
+}
 
+int Controller::GetCurrentCorrectCount() {
+  return model_->GetCurrentCorrectCount();
+}
 
+int Controller::GetCorrectNeeded() {
+  return model_->GetCorrectNeeded();
+}
+
+void Controller::OnCorrect() {
+  view_->OnCorrect();
+}
+
+void Controller::OnWrong() {
+  view_->OnWrong();
+}
+
+void Controller::OnWin() {
+  view_->OnWin();
+}
+
+void Controller::OnLose() {
+  view_->OnLose();
+}

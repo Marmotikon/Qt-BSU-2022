@@ -1,8 +1,8 @@
 #pragma once
 
-#include <memory>
-
 #include <QObject>
+
+#include <memory>
 
 #include "abstract_controller.h"
 #include "main_window.h"
@@ -27,12 +27,16 @@ class Controller : public AbstractController {
 
   void PickAnOptionNextTask();
 
-  void Win() override;
-  void Lose() override;
-
-  //Getters from model
   bool IsSoundOn() override;
   QString GetProgressPoints() override;
+  int GetAttemptsRemained() override;
+  int GetCurrentCorrectCount() override;
+  int GetCorrectNeeded() override;
+
+  void OnCorrect() override;
+  void OnWrong() override;
+  void OnWin() override;
+  void OnLose() override;
 
  private:
   std::unique_ptr<Model> model_;

@@ -25,7 +25,7 @@ add_executable(duolingo
         input_answer_widget.cpp
         audio_widget.cpp
         main_page_widget.cpp
-        resources.qrc)
+        resources.qrc constants.h)
 
 target_link_libraries(duolingo
         Qt::Core

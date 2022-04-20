@@ -1,25 +1,26 @@
 #pragma once
 
-#include <memory>
-
+#include <QComboBox>
+#include <QGridLayout>
+#include <QLabel>
+#include <QListWidget>
 #include <QMainWindow>
 #include <QMenu>
-#include <QLabel>
 #include <QMenuBar>
-#include <QStatusBar>
-#include <QComboBox>
-#include <QPushButton>
-#include <QListWidget>
-#include <QGridLayout>
-#include <QSettings>
 #include <QProgressBar>
+#include <QPushButton>
+#include <QSettings>
 #include <QSoundEffect>
+#include <QStatusBar>
+
+#include <memory>
 
 #include "abstract_controller.h"
-#include "pick_an_option_widget.h"
-#include "main_page_widget.h"
-#include "input_answer_widget.h"
 #include "audio_widget.h"
+#include "constants.h"
+#include "input_answer_widget.h"
+#include "main_page_widget.h"
+#include "pick_an_option_widget.h"
 
 class MainWindow : public QMainWindow {
   Q_OBJECT
@@ -30,10 +31,6 @@ class MainWindow : public QMainWindow {
   PickAnOptionWidget* GetPickAnOption();
   InputAnswerWidget* GetInputAnswer();
   AudioWidget* GetAudio();
-
-  void SetProgressPoints(QString);
-  void UpdateAfterCheck(bool was_right);
-  void UpdateAttempts();
 
   void CreateMenu();
   void ManageCentralWidget();
@@ -47,8 +44,19 @@ class MainWindow : public QMainWindow {
   void GoToInputAnswer();
   void GoToAudio();
 
+  void GoToWinPage();
+  void GoToLosePage();
+
   void Update();
+
+  void OnCorrect();
+  void OnWrong();
+  void OnWin();
+  void OnLose();
+
  private:
+  void GoToTaskMode();
+
   AbstractController* controller_;
 
   QLabel* progress_points_;
@@ -64,9 +72,6 @@ class MainWindow : public QMainWindow {
 
   QLabel* attempts_;
   QPushButton* exit_;
-
-  int attempts_count_;
-  int tasks_to_complete_;
 
   QSoundEffect* right_sound_;
   QSoundEffect* wrong_sound_;

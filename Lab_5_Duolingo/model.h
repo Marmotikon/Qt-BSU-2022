@@ -1,20 +1,38 @@
 #pragma once
 
-#include <vector>
-#include <QString>
-#include <QSettings>
 #include <QFile>
+#include <QSettings>
+#include <QString>
+
 #include <fstream>
+#include <vector>
+
 #include "abstract_controller.h"
+#include "constants.h"
 
 class Model : public QObject {
   Q_OBJECT
+ private:
+  struct Tasks {
+    std::vector<QString> conditions;
+    std::vector<std::vector<QString>> variants;
+    std::vector<int> answers;
+    int tasks_count;
+
+    int current_task_index{0};
+  };
+
+  struct PickAnOption {
+    Tasks easy;
+    Tasks medium;
+    Tasks hard;
+  };
+
  public:
   Model(AbstractController* controller);
-  // const QString& Element(size_t i) const { return queue_[i]; }
-  // size_t Size() const { return queue_.size(); }
-  // void Pop() { queue_.erase(queue_.begin()); }
-  // void Push(const QString& item) { queue_.push_back(item); }
+  int GetAttemptsRemained();
+  int GetCurrentCorrectCount();
+
   void SetDifficultyMode(QString value);
   QString GetDifficultyMode();
 
@@ -24,41 +42,22 @@ class Model : public QObject {
   void AddProgressPoints(int value);
   void ResetProgressPoints();
   QString GetProgressPoints();
+  int GetCorrectNeeded();
 
   static void PickAnOptionLoadTasks(const QString& file_name,
-      std::vector<std::vector<QString>>& tasks);
-  std::vector<QString> GetPickAnOptionTask();
-
-  // void IAEasyFileStart();
-  // std::vector<QString> GetInputAnswerEasyTask();
-  // void IAMediumFileStart();
-  // std::vector<QString> GetInputAnswerMediumTask();
-  // void IAHardFileStart();
-  // std::vector<QString> GetInputAnswerHardTask();
-  //
-  // void AudioEasyFileStart();
-  // std::vector<QString> GetAudioEasyTask();
-  // void AudioMediumFileStart();
-  // std::vector<QString> GetAudioMediumTask();
-  // void AudioHardFileStart();
-  // std::vector<QString> GetAudioHardTask();
+      Tasks& tasks);
+  void StartNewPickAnOption();
+  QString GetPickAnOptionCondition();
+  std::vector<QString> GetPickAnOptionVariants();
+  void PickAnOptionNextTask();
+  void PickAnOptionCheckAnswer(int checked_variant);
 
  private:
-  struct PickAnOption {
-    QString easy_filename_{":tasks/PickAnOption_easy_tasks.txt"};
-    QString medium_filename_{":tasks/PickAnOption_medium_tasks.txt"};
-    QString hard_filename_{":tasks/PickAnOption_hard_tasks.txt"};
-    std::vector<std::vector<QString>> easy_tasks;
-    std::vector<std::vector<QString>> medium_tasks;
-    std::vector<std::vector<QString>> hard_tasks;
-    int easy_next_index{0};
-    int medium_next_index{0};
-    int hard_next_index{0};
-  };
   AbstractController* controller_;
   PickAnOption pick_an_option_;
   QSettings* settings_;
 
-
+  int current_correct_count_;
+  int attempts_remained_;
 
 };
