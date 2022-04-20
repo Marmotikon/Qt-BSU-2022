@@ -1,5 +1,12 @@
 <RCC>
     <qresource>
-        <file>PaO_tasks.txt</file>
+        <file>tasks/PickAnOption_easy_tasks.txt</file>
+        <file>tasks/PickAnOption_medium_tasks.txt</file>
+        <file>tasks/PickAnOption_hard_tasks.txt</file>
+        <file>images/icon.jpg</file>
+        <file>sounds/answer_is_right.wav</file>
+        <file>sounds/answer_is_wrong.wav</file>
+        <file>sounds/win.wav</file>
+        <file>sounds/lose.wav</file>
     </qresource>
 </RCC>

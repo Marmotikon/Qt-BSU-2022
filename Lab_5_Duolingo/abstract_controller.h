@@ -3,6 +3,7 @@
 #include <QObject>
 #include <QMenu>
 #include <QAction>
+#include <QPushButton>
 
 class AbstractController : public QObject {
   Q_OBJECT
@@ -10,9 +11,15 @@ class AbstractController : public QObject {
   virtual void ManageDifficultyMenu(QMenu* difficulty_menu) = 0;
   virtual void ManageSoundMenu(QMenu* sound_menu) = 0;
   virtual void ConnectResetProgressAction(QAction* reset_progress_action) = 0;
+  virtual void ConnectExitButton(QPushButton* exit_button) = 0;
+
   virtual void ShowResetProgressDialog() = 0;
+  virtual void ShowExitDialog() = 0;
   virtual void Win() = 0;
   virtual void Lose() = 0;
+
+  virtual bool IsSoundOn() = 0;
+  virtual QString GetProgressPoints() = 0;
  public:
   // AbstractController() = default;
 

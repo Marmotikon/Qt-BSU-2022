@@ -16,7 +16,9 @@ class Controller : public AbstractController {
   void ManageDifficultyMenu(QMenu* difficulty_menu) override;
   void ManageSoundMenu(QMenu* sound_menu) override;
   void ConnectResetProgressAction(QAction* reset_progress_action) override;
+  void ConnectExitButton(QPushButton* exit_button) override;
   void ShowResetProgressDialog() override;
+  void ShowExitDialog() override;
 
   void ConnectMainPageButtons();
   void ConnectPickAnOptionButtons();
@@ -25,11 +27,12 @@ class Controller : public AbstractController {
 
   void PickAnOptionNextTask();
 
-  void Win() override;  // todo
-  void Lose() override;  // todo
+  void Win() override;
+  void Lose() override;
 
- private:
-  void RefreshView();
+  //Getters from model
+  bool IsSoundOn() override;
+  QString GetProgressPoints() override;
 
  private:
   std::unique_ptr<Model> model_;

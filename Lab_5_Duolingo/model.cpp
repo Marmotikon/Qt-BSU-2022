@@ -3,11 +3,15 @@
 #include <QFile>
 
 
-Model::Model() :
+Model::Model(AbstractController* controller) :
+    controller_(controller),
     settings_(new QSettings("2DaysBeforeDeadlineCorp", "Dualingo")) {
-  PickAnOptionLoadTasks(pao_easy_filename_, pao_easy_tasks_);
-  PickAnOptionLoadTasks(pao_medium_filename_, pao_medium_tasks_);
-  PickAnOptionLoadTasks(pao_hard_filename_, pao_hard_tasks_);
+  PickAnOptionLoadTasks(pick_an_option_.easy_filename_, 
+                        pick_an_option_.easy_tasks);
+  PickAnOptionLoadTasks(pick_an_option_.medium_filename_, 
+                        pick_an_option_.medium_tasks);
+  PickAnOptionLoadTasks(pick_an_option_.hard_filename_, 
+                        pick_an_option_.hard_tasks);
 }
 
 
@@ -64,20 +68,20 @@ void Model::PickAnOptionLoadTasks(const QString& file_name,
 std::vector<QString> Model::GetPickAnOptionTask() {
   QString difficulty = settings_->value("difficulty").toString();
   if (difficulty == "easy") {
-    if (pao_easy_next_task_index == pao_easy_tasks_.size()) {
-      pao_easy_next_task_index = 0;
+    if (pick_an_option_.easy_next_index == pick_an_option_.easy_tasks.size()) {
+      pick_an_option_.easy_next_index = 0;
     }
-    return pao_easy_tasks_.at(pao_easy_next_task_index++);
+    return pick_an_option_.easy_tasks.at(pick_an_option_.easy_next_index++);
   } else if (difficulty == "medium") {
-    if (pao_medium_next_task_index == pao_medium_tasks_.size()) {
-      pao_medium_next_task_index = 0;
+    if (pick_an_option_.medium_next_index == pick_an_option_.medium_tasks.size()) {
+      pick_an_option_.medium_next_index = 0;
     }
-    return pao_medium_tasks_.at(pao_medium_next_task_index++);
+    return pick_an_option_.medium_tasks.at(pick_an_option_.medium_next_index++);
   } else {  // hard
-    if (pao_hard_next_task_index == pao_hard_tasks_.size()) {
-      pao_hard_next_task_index = 0;
+    if (pick_an_option_.hard_next_index == pick_an_option_.hard_tasks.size()) {
+      pick_an_option_.hard_next_index = 0;
     }
-    return pao_hard_tasks_.at(pao_hard_next_task_index++);
+    return pick_an_option_.hard_tasks.at(pick_an_option_.hard_next_index++);
   }
 }
 

@@ -5,11 +5,12 @@
 #include <QSettings>
 #include <QFile>
 #include <fstream>
+#include "abstract_controller.h"
 
 class Model : public QObject {
   Q_OBJECT
  public:
-  Model();
+  Model(AbstractController* controller);
   // const QString& Element(size_t i) const { return queue_[i]; }
   // size_t Size() const { return queue_.size(); }
   // void Pop() { queue_.erase(queue_.begin()); }
@@ -43,15 +44,21 @@ class Model : public QObject {
   // std::vector<QString> GetAudioHardTask();
 
  private:
+  struct PickAnOption {
+    QString easy_filename_{":tasks/PickAnOption_easy_tasks.txt"};
+    QString medium_filename_{":tasks/PickAnOption_medium_tasks.txt"};
+    QString hard_filename_{":tasks/PickAnOption_hard_tasks.txt"};
+    std::vector<std::vector<QString>> easy_tasks;
+    std::vector<std::vector<QString>> medium_tasks;
+    std::vector<std::vector<QString>> hard_tasks;
+    int easy_next_index{0};
+    int medium_next_index{0};
+    int hard_next_index{0};
+  };
+  AbstractController* controller_;
+  PickAnOption pick_an_option_;
   QSettings* settings_;
 
-  QString pao_easy_filename_{":PickAnOption_easy_tasks.txt"};
-  QString pao_medium_filename_{":PickAnOption_medium_tasks.txt"};
-  QString pao_hard_filename_{":PickAnOption_hard_tasks.txt"};
-  std::vector<std::vector<QString>> pao_easy_tasks_;
-  std::vector<std::vector<QString>> pao_medium_tasks_;
-  std::vector<std::vector<QString>> pao_hard_tasks_;
-  int pao_easy_next_task_index{0};
-  int pao_medium_next_task_index{0};
-  int pao_hard_next_task_index{0};
+
+
 };

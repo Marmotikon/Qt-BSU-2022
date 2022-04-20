@@ -13,6 +13,7 @@
 #include <QGridLayout>
 #include <QSettings>
 #include <QProgressBar>
+#include <QSoundEffect>
 
 #include "abstract_controller.h"
 #include "pick_an_option_widget.h"
@@ -34,22 +35,24 @@ class MainWindow : public QMainWindow {
   void UpdateAfterCheck(bool was_right);
   void UpdateAttempts();
 
-  void Update();
-  // QMenu* GetMenu();
-  // void ShowResetProgressDialog();
   void CreateMenu();
+  void ManageCentralWidget();
+  void ManageSounds();
+
+  void MuteSounds();
+  void UnmuteSounds();
 
   void GoToMainPage();
   void GoToPickAnOption();
   void GoToInputAnswer();
   void GoToAudio();
 
+  void Update();
  private:
   AbstractController* controller_;
 
   QLabel* progress_points_;
   QProgressBar* progress_bar_;
-  QLabel* attempts_;
 
   QWidget* central_widget_;
   QVBoxLayout* central_layout_;
@@ -59,6 +62,14 @@ class MainWindow : public QMainWindow {
   InputAnswerWidget* input_answer_widget_;
   AudioWidget* audio_widget_;
 
+  QLabel* attempts_;
+  QPushButton* exit_;
+
   int attempts_count_;
   int tasks_to_complete_;
+
+  QSoundEffect* right_sound_;
+  QSoundEffect* wrong_sound_;
+  QSoundEffect* lose_sound_;
+  QSoundEffect* win_sound_;
 };

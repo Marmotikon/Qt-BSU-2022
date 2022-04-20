@@ -10,15 +10,15 @@
 #include "input_answer_widget.h"
 #include "audio_widget.h"
 
-Controller::Controller() : model_(std::make_unique<Model>()),
+Controller::Controller() : model_(std::make_unique<Model>(this)),
     view_(std::make_unique<MainWindow>(this)) {
-  view_->show();
   ConnectMainPageButtons();
   ConnectPickAnOptionButtons();
   ConnectInputAnswerButtons();
   ConnectAudioButtons();
 
-  RefreshView();
+  view_->show();
+  view_->Update();
 }
 
 void Controller::ManageDifficultyMenu(QMenu* difficulty_menu) {
@@ -60,19 +60,7 @@ void Controller::ManageDifficultyMenu(QMenu* difficulty_menu) {
     set_hard_difficulty->setChecked(true);
   }
 }
-// show_context_menu_action->setCheckable(true);
-// connect(show_context_menu_action, &QAction::triggered, this,
-//         [&, show_context_menu_action] {
-//           show_context_menu_ = show_context_menu_action->isChecked();
-//         });
 
-//  menu->addSeparator();
-
-// // Menu in menu
-// some_menu = menu->addMenu("There is something here");
-// auto* show_dialog_action = some_menu->addAction("Show dialog");
-// // connect(show_dialog_action, &QAction::triggered, this,
-// //         &MainWindow::ShowDialog);
 void Controller::ManageSoundMenu(QMenu* sound_menu) {
   auto* set_sound_on = sound_menu->addAction("Включить");
   auto* set_sound_off = sound_menu->addAction("Выключить");
@@ -88,12 +76,14 @@ void Controller::ManageSoundMenu(QMenu* sound_menu) {
   connect(set_sound_on, &QAction::triggered, this,
           [this] {
             model_->SetSoundMode("on");
-            view_->statusBar()->showMessage("sound on");
+            view_->statusBar()->showMessage("by Hans Zimmer)");
+            view_->Update();
           });
   connect(set_sound_off, &QAction::triggered, this,
           [this] {
             model_->SetSoundMode("off");
-            view_->statusBar()->showMessage("sound off");
+            view_->statusBar()->showMessage("Тишина должна быть в библиотеке)");
+            view_->Update();
           });
 
   if (model_->GetSoundMode() == "on") {
@@ -108,15 +98,31 @@ void Controller::ConnectResetProgressAction(QAction* reset_progress_action) {
           &Controller::ShowResetProgressDialog);
 }
 
+void Controller::ConnectExitButton(QPushButton* exit_button) {
+  connect(exit_button, &QPushButton::pressed, this,
+          &Controller::ShowExitDialog);
+  exit_button->setShortcut(QKeySequence("Ctrl+Q"));
+}
+
 void Controller::ShowResetProgressDialog() {
-  auto answer = QMessageBox::question(view_->centralWidget(), "Reset progress",
-                                      "Вы уверены, что хотите сбросить текущий прогресс");
+  auto answer = QMessageBox::question(view_->centralWidget(), "Duolingo",
+                                      "Вы уверены, что хотите сбросить текущий прогресс?");
   if (answer == QMessageBox::Yes) {
     model_->ResetProgressPoints();
-    view_->SetProgressPoints(model_->GetProgressPoints());
-    view_->statusBar()->showMessage("Начнем с начала)");
+    view_->statusBar()->showMessage("Начнем с презент симпл)");
+    view_->Update();
   } else {
     view_->statusBar()->showMessage("Это было опасно)");
+  }
+}
+
+void Controller::ShowExitDialog() {
+  auto answer = QMessageBox::question(view_->centralWidget(), "Duolingo",
+                                      "Вы уверены, что хотите выйти?");
+  if (answer == QMessageBox::Yes) {
+    view_->close();
+  } else {
+    view_->statusBar()->showMessage("Не выходи из комнаты, не совершай ошибку)");
   }
 }
 
@@ -175,11 +181,6 @@ void Controller::ConnectAudioButtons() {
   });
 }
 
-void Controller::RefreshView() {
-  view_->SetProgressPoints(model_->GetProgressPoints());
-  // view_->Update();
-}
-
 void Controller::PickAnOptionNextTask() {
   auto widget = view_->GetPickAnOption();
   std::vector<QString> task_strings = model_->GetPickAnOptionTask();
@@ -193,11 +194,23 @@ void Controller::PickAnOptionNextTask() {
 
 void Controller::Win() {
   view_->statusBar()->showMessage("Победа победа куриный ужин)");
+  model_->AddProgressPoints(1);
   view_->GoToMainPage();
+  view_->Update();
 }
 
 void Controller::Lose() {
-  view_->statusBar()->showMessage("Не везет с английским, повезет, если не станешь дворником)");
+  view_->statusBar()->showMessage("Надеюсь ты хоть не у Ситниковой)");
   view_->GoToMainPage();
 }
+
+bool Controller::IsSoundOn() {
+  return model_->GetSoundMode() == "on";
+}
+
+QString Controller::GetProgressPoints() {
+  return model_->GetProgressPoints();
+}
+
+
 
