@@ -5,11 +5,19 @@
 #include <QLineEdit>
 #include <QPushButton>
 #include <QWidget>
+#include <QSoundEffect>
 
 class AudioWidget : public QWidget {
  Q_OBJECT
  public:
   AudioWidget();
+
+  void SetTaskCondition(const QString& string);
+  void SetVariants(const std::vector<QString>& strings);
+
+  void UpdateForNextTask();
+  void UpdateAfterCheck();
+  QString GetAnswer();
 
  signals:
   void CheckAnswerButtonPressed();
@@ -18,8 +26,10 @@ class AudioWidget : public QWidget {
 
  private:
   QGridLayout* layout_;
+  QLabel* task_text_;
   QLabel* task_condition_;
-  // todo audio task
+  QPushButton* speaker_;
+  QSoundEffect* sound_effect_;
   QLineEdit* answer_;
   QPushButton* check_answer_button_;
   QPushButton* next_question_button_;

@@ -8,19 +8,15 @@ void Task::LoadTasks(const QString& file_name) {
     QTextStream text_stream(&file);
 
     tasks_count_ = text_stream.readLine().toInt();
-    qDebug() << tasks_count_ << '\n';
     text_stream.readLine();
     variants_.resize(tasks_count_);
     for (int i = 0; i < tasks_count_; i++) {
       conditions_.push_back(text_stream.readLine());
-      qDebug() << conditions_.back() << '\n';
       int variant_count = text_stream.readLine().toInt();
       for (int j = 0; j < variant_count; j++) {
         variants_[i].push_back(text_stream.readLine());
-        qDebug() << variants_[i].back() << ' ';
       }
       answers_.push_back(text_stream.readLine());
-      qDebug() << '\n' << answers_.back() << "\n\n";
       text_stream.readLine();
     }
 }
@@ -49,8 +45,6 @@ void Task::SwitchToNextTask() {
 }
 
 bool Task::IsAnswerCorrect(const QString& answer) {
-  qDebug() << answer << " answer from widget";
-  qDebug() << answers_.at(current_task_index_) << " correct answer";
   return answers_.at(current_task_index_) == answer;
 }
 

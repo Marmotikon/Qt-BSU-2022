@@ -27,8 +27,8 @@ void CustomWidget::SetTaskCondition(const QString& string) {
 // void CustomWidget::UpdateForNextTask() {
 //   layout_->removeWidget(task_text_);
 //   layout_->addWidget(task_text_, 0, 1, 1, variants_count_);
-//   layout_->removeWidget(task_condition_);
-//   layout_->addWidget(task_condition_, 1, 1, 1, variants_count_);
+//   layout_->removeWidget(task_text_);
+//   layout_->addWidget(task_text_, 1, 1, 1, variants_count_);
 //   layout_->removeWidget(check_answer_button_);
 //   layout_->addWidget(check_answer_button_, 3, 1, 1, variants_count_);
 //   layout_->removeWidget(next_question_button_);

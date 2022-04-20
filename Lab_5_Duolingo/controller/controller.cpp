@@ -5,11 +5,6 @@
 #include <QString>
 #include <QMessageBox>
 
-#include "../view/audio_widget.h"
-#include "../view/input_answer_widget.h"
-#include "../view/main_page_widget.h"
-#include "../view/pick_an_option_widget.h"
-
 Controller::Controller() : model_(std::make_unique<Model>(this)),
     view_(std::make_unique<MainWindow>(this)) {
   ConnectMainPageButtons();
@@ -144,10 +139,29 @@ void Controller::ConnectMainPageButtons() {
     widget->UpdateForNextTask();
   });
   connect(widget, &MainPageWidget::AudioButtonPressed, this, [this] {
-    // todo
+    model_->StartNewExercise("audio");
+    view_->GoToAudio();
+    auto widget = view_->GetAudio();
+    widget->SetTaskCondition(model_->GetCondition());
+    widget->SetVariants(model_->GetVariants());
+    widget->UpdateForNextTask();
   });
-  connect(widget, &MainPageWidget::MixedButtonPressed, this, [this] {
-    //todo
+  connect(widget, &MainPageWidget::MixedButtonPressed, this, [=] {
+    int index = rand() % 3;
+    switch (index) {
+      case 0: {
+        widget->PickAnOptionButtonPressed();
+        break;
+      }
+      case 1: {
+        widget->InputAnswerButtonPressed();
+        break;
+      }
+      case 2: {
+        widget->AudioButtonPressed();
+        break;
+      }
+    }
   });
 }
 
@@ -165,7 +179,7 @@ void Controller::ConnectPickAnOptionButtons() {
     widget->UpdateForNextTask();
   });
   connect(widget, &PickAnOptionWidget::GoToMainPageButtonPressed, this, [this] {
-    view_->GoToMainPage();  // todo dialog
+    view_->GoToMainPage();
   });
 }
 
@@ -182,17 +196,22 @@ void Controller::ConnectInputAnswerButtons() {
     widget->UpdateForNextTask();
   });
   connect(widget, &InputAnswerWidget::GoToMainPageButtonPressed, this, [this] {
-    view_->GoToMainPage();  // todo dialog
+    view_->GoToMainPage();
   });
 }
 
 void Controller::ConnectAudioButtons() {
   auto* widget = view_->GetAudio();
-  connect(widget, &AudioWidget::CheckAnswerButtonPressed, this, [this] {
-    //todo
+  connect(widget, &AudioWidget::CheckAnswerButtonPressed, this, [=] {
+    widget->UpdateAfterCheck();
+    model_->CheckAnswer(widget->GetAnswer());
+    view_->Update();
   });
-  connect(widget, &AudioWidget::NextQuestionButtonPressed, this, [this] {
-    //todo
+  connect(widget, &AudioWidget::NextQuestionButtonPressed, this, [=] {
+    model_->SwitchToNextTask();
+    widget->SetTaskCondition(model_->GetCondition());
+    widget->SetVariants(model_->GetVariants());
+    widget->UpdateForNextTask();
   });
   connect(widget, &AudioWidget::GoToMainPageButtonPressed, this, [this] {
     view_->GoToMainPage();
