@@ -7,8 +7,13 @@
 #include <QWidget>
 
 class PickAnOptionWidget : public QWidget {
+  Q_OBJECT
  public:
   PickAnOptionWidget();
+
+  void SetTaskCondition(QString string);
+  void SetTaskText(QString string);
+  void SetVariants(int count, std::vector<QString> strings);
 
  signals:
   void CheckAnswerButtonPressed();

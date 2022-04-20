@@ -21,7 +21,7 @@ add_executable(duolingo
         abstract_controller.h
         controller.cpp
         controller.h
-        model.h model.cpp pick_an_option_widget.cpp pick_an_option_widget.h input_answer_widget.cpp input_answer_widget.h)
+        model.h model.cpp pick_an_option_widget.cpp pick_an_option_widget.h input_answer_widget.cpp input_answer_widget.h audio_widget.cpp audio_widget.h main_page_widget.cpp main_page_widget.h)
 
 target_link_libraries(duolingo
         Qt::Core

@@ -7,6 +7,7 @@
 #include <QWidget>
 
 class AudioWidget : public QWidget {
+ Q_OBJECT
  public:
   AudioWidget();
 

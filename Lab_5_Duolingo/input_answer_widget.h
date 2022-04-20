@@ -7,6 +7,7 @@
 #include <QWidget>
 
 class InputAnswerWidget : public QWidget {
+ Q_OBJECT
  public:
   InputAnswerWidget();
 

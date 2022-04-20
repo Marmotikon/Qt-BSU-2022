@@ -15,19 +15,14 @@ class Controller : public AbstractController {
 
   void ManageDifficultyMenu(QMenu* difficulty_menu) override;
   void ManageSoundMenu(QMenu* sound_menu) override;
-  void ManageResetProgressAction(QAction* reset_progress_action) override;
-
+  void ConnectResetProgressAction(QAction* reset_progress_action) override;
   void ShowResetProgressDialog() override;
 
+  void ConnectMainPageButtons();
+  void ConnectPickAnOptionButtons();
+  void ConnectInputAnswerButtons();
+  void ConnectAudioButtons();
 
-  // virtual void SetDifficultyMode(DifficultyMode new_mode);
-  // virtual DifficultyMode GetDifficulty() const;
-  //
-  // virtual void SetSoundMode(SoundMode new_mode);
-  // virtual SoundMode GetSound() const;
-  //
-  // virtual void SetWindowMode(WindowMode new_mode);
-  // virtual WindowMode GetWindow() const;
 
  private:
   void RefreshView();
@@ -35,11 +30,4 @@ class Controller : public AbstractController {
  private:
   std::unique_ptr<Model> model_;
   std::unique_ptr<MainWindow> view_;
-
-  // DifficultyMode difficulty_mode_{DifficultyMode::easy};
-  // SoundMode sound_mode_{SoundM
-
-  // DifficultyMode difficulty_mode_{DifficultyMode::easy};
-  // SoundMode sound_mode_{SoundMode::on};
-  // WindowMode window_mode_{WindowMode::main_menu};
 };

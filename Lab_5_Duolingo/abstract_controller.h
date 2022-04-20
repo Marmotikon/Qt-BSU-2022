@@ -9,8 +9,12 @@ class AbstractController : public QObject {
  public:
   virtual void ManageDifficultyMenu(QMenu* difficulty_menu) = 0;
   virtual void ManageSoundMenu(QMenu* sound_menu) = 0;
-  virtual void ManageResetProgressAction(QAction* reset_progress_action) = 0;
+  virtual void ConnectResetProgressAction(QAction* reset_progress_action) = 0;
   virtual void ShowResetProgressDialog() = 0;
+  // virtual void ConnectMainPageButtons() = 0;
+  // virtual void ConnectPickAnOptionButtons() = 0;
+  // virtual void ConnectInputAnswerButtons() = 0;
+  // virtual void ConnectAudioButtons() = 0;
  //  enum class DifficultyMode {
  //    easy,
  //    medium,

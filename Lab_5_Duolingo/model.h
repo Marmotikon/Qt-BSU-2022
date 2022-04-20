@@ -20,7 +20,7 @@ class Model : public QObject {
 
   void AddProgressPoints(int value);
   void ResetProgressPoints();
-  int GetProgressPoints();
+  QString GetProgressPoints();
 
   // QString GetTaskMode();
 

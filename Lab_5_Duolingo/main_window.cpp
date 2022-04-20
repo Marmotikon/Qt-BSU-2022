@@ -8,44 +8,53 @@
 MainWindow::MainWindow(AbstractController* controller) :
     QMainWindow(nullptr), //todo
     controller_(controller),
-    central_widget_(new QWidget(this)),
-    main_layout_(new QHBoxLayout()),
+    // main_layout_(new QHBoxLayout()),
+    progress_points_(new QLabel("Набранные очки: ...")),
+    progress_bar_(new QProgressBar(this)),
 
-    main_page_widget_(new QWidget(this)),
+    central_widget_(new QWidget(this)),
+    central_layout_(new QVBoxLayout()),
+
+    main_page_widget_(new MainPageWidget()),
     pick_an_option_widget_(new PickAnOptionWidget()),
     input_answer_widget_(new InputAnswerWidget()),
-    audio_widget_(new QWidget(this)),
-
-    main_menu_layout_(new QGridLayout(/*main_page_widget_*/)),
-    input_answer_layout_(new QGridLayout(/*input_answer_widget_*/)),
-    audio_layout_(new QGridLayout(/*audio_widget_*/)),
-
-    pick_an_option_(new QPushButton("Выбери правильный вариант", this)),
-    input_answer_(new QPushButton("Введи ответ", this)),
-    audio_(new QPushButton("Аудио", this)),
-    mixed_(new QPushButton("Рандом", this))
+    audio_widget_(new AudioWidget())
     {
   statusBar()->setVisible(true);
+  CreateMenu();
 
-  resize(400, 400);
+  resize(500, 500);
+  setMinimumSize(300, 300);
 
-  main_layout_->addWidget(main_page_widget_);
-  main_layout_->addWidget(pick_an_option_widget_);
-  main_layout_->addWidget(input_answer_widget_);
-  main_layout_->addWidget(audio_widget_);
+  // main_layout_->addWidget(progress_points_);
+  // main_layout_->addWidget(central_widget_);
+  // main_layout_->addWidget(progress_bar_);
 
-  ManageMainPage();
-  // ManagePickAnOnpion();
-  // ManageInputAnswer();
-  // ManageAudio();
 
-  main_page_widget_->show();
-  pick_an_option_widget_->hide();
-  input_answer_widget_->hide();
-  audio_widget_->hide();
+  central_layout_->addWidget(progress_points_);
+  central_layout_->addWidget(main_page_widget_);
+  central_layout_->addWidget(pick_an_option_widget_);
+  central_layout_->addWidget(input_answer_widget_);
+  central_layout_->addWidget(audio_widget_);
+  central_layout_->addWidget(progress_bar_);
 
-  central_widget_->setLayout(main_layout_);
+  central_layout_->setStretch(0, 1);
+  central_layout_->setStretch(1, 10);
+  central_layout_->setStretch(2, 10);
+  central_layout_->setStretch(3, 10);
+  central_layout_->setStretch(4, 10);
+  central_layout_->setStretch(5, 2);
+
   setCentralWidget(central_widget_);
+  central_widget_->setLayout(central_layout_);
+  GoToMainPage();
+
+  connect(progress_points_, &QMainWindow::customContextMenuRequested, this,
+          [this] {
+    controller_->ShowResetProgressDialog();
+  });
+  central_widget_->setContextMenuPolicy(Qt::NoContextMenu);
+  progress_points_->setContextMenuPolicy(Qt::CustomContextMenu);
 
   // QAction* exit_action = new QAction;
   // exit_action->setShortcut(QKeySequence("u"));
@@ -58,7 +67,7 @@ MainWindow::MainWindow(AbstractController* controller) :
   // }
   // statusBar()->setVisible(false);
 
-      // connect(input_answer_, &QPushButton::clicked, this,
+      // connect(input_answer_button_, &QPushButton::clicked, this,
       //         [this]{
       //   // central_widget_->setVisible(false);
       //   central_widget_->setLayout(input_answer_layout_);
@@ -105,58 +114,6 @@ MainWindow::MainWindow(AbstractController* controller) :
 //   return menu_;
 // }
 
-
-void MainWindow::ManageMainPage() {
-  main_menu_layout_->addWidget(pick_an_option_, 0, 1);
-  main_menu_layout_->addWidget(input_answer_, 1, 1);
-  main_menu_layout_->addWidget(audio_, 2, 1);
-  main_menu_layout_->addWidget(mixed_, 3, 1);
-
-  main_menu_layout_->setColumnStretch(0, 1);
-  main_menu_layout_->setColumnStretch(1, 8);
-  main_menu_layout_->setColumnStretch(2, 1);
-
-  main_page_widget_->setLayout(main_menu_layout_);
-
-  connect(pick_an_option_, &QPushButton::clicked, this,
-          [this] {
-    GoToPickAnOption();
-  });
-  connect(input_answer_, &QPushButton::clicked, this,
-          [this] {
-    GoToInputAnswer();
-  });
-  connect(pick_an_option_, &QPushButton::clicked, this,
-          [this] {
-    GoToPickAnOption();
-  });
-  connect(pick_an_option_, &QPushButton::clicked, this,
-          [this] {
-    GoToPickAnOption();
-  });
-}
-
-void MainWindow::ManageAudio() {
-  // main_menu_layout_->addWidget(audio_, 0, 1);
-  // main_menu_layout_->addWidget(audio_, 1, 1);
-  // main_menu_layout_->addWidget(audio_, 2, 1);
-  // main_menu_layout_->addWidget(audio_, 3, 1);
-
-  main_menu_layout_->setColumnStretch(0, 1);
-  main_menu_layout_->setColumnStretch(1, 8);
-  main_menu_layout_->setColumnStretch(2, 1);
-
-  audio_widget_->setLayout(audio_layout_);
-
-}
-
-void MainWindow::GoToPickAnOption() {
-  main_page_widget_->hide();
-  pick_an_option_widget_->show();
-  input_answer_widget_->hide();
-  audio_widget_->hide();
-}
-
 void MainWindow::CreateMenu() {
   auto* difficulty_menu = menuBar()->addMenu("Сложность");
   controller_->ManageDifficultyMenu(difficulty_menu);
@@ -165,7 +122,25 @@ void MainWindow::CreateMenu() {
   controller_->ManageSoundMenu(sound_menu);
 
   auto* reset_progress_action = menuBar()->addAction("Сбросить прогресс");
-  controller_->ManageResetProgressAction(reset_progress_action);
+  controller_->ConnectResetProgressAction(reset_progress_action);
+}
+
+void MainWindow::GoToMainPage() {
+  main_page_widget_->show();
+  pick_an_option_widget_->hide();
+  input_answer_widget_->hide();
+  audio_widget_->hide();
+  progress_bar_->hide();
+}
+
+void MainWindow::GoToPickAnOption() {
+  main_page_widget_->hide();
+  pick_an_option_widget_->show();
+  input_answer_widget_->hide();
+  audio_widget_->hide();
+  progress_bar_->show();
+
+  pick_an_option_widget_->NextQuestionButtonPressed();
 }
 
 void MainWindow::GoToInputAnswer() {
@@ -173,4 +148,36 @@ void MainWindow::GoToInputAnswer() {
   pick_an_option_widget_->hide();
   input_answer_widget_->show();
   audio_widget_->hide();
+  progress_bar_->show();
+}
+
+void MainWindow::GoToAudio() {
+  main_page_widget_->hide();
+  pick_an_option_widget_->hide();
+  input_answer_widget_->hide();
+  audio_widget_->show();
+  progress_bar_->show();
+}
+
+MainPageWidget* MainWindow::GetMainPage() {
+  return main_page_widget_;
+}
+
+PickAnOptionWidget* MainWindow::GetPickAnOption() {
+  return pick_an_option_widget_;
+}
+
+InputAnswerWidget* MainWindow::GetInputAnswer() {
+  return input_answer_widget_;
+}
+
+AudioWidget* MainWindow::GetAudio() {
+  return audio_widget_;
+}
+
+void MainWindow::Update() {
+}
+
+void MainWindow::SetProgressPoints(QString string) {
+  progress_points_->setText("Текущий прогресс: " + string);
 }

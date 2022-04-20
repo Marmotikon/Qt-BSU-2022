@@ -5,6 +5,7 @@
 #include <QWidget>
 
 class MainPageWidget : public QWidget {
+ Q_OBJECT
  public:
   MainPageWidget();
 

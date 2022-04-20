@@ -10,14 +10,11 @@ PickAnOptionWidget::PickAnOptionWidget() :
     go_to_main_page_button_(new QPushButton("main page", this)) {
   layout_->addWidget(task_condition_, 0, 1);
   layout_->addWidget(task_text_, 1, 1);
-  layout_->addWidget(next_question_button_, 2, 1);
-  layout_->addWidget(go_to_main_page_button_, 3, 1);
-  layout_->addWidget(check_answer_button_, 4, 1);
+  // layout_->addWidget(variants_, 1, 1);
+  layout_->addWidget(next_question_button_, 3, 1);
+  layout_->addWidget(go_to_main_page_button_, 4, 1);
+  layout_->addWidget(check_answer_button_, 5, 1);
 
-
-  layout_->setColumnStretch(0, 1);
-  layout_->setColumnStretch(1, 8);
-  layout_->setColumnStretch(2, 1);
 
   setLayout(layout_);
 
@@ -27,4 +24,30 @@ PickAnOptionWidget::PickAnOptionWidget() :
           &PickAnOptionWidget::NextQuestionButtonPressed);
   connect(go_to_main_page_button_, &QPushButton::pressed, this,
           &PickAnOptionWidget::GoToMainPageButtonPressed);
+}
+
+void PickAnOptionWidget::SetTaskCondition(QString string) {
+  task_condition_->setText(string);
+}
+
+void PickAnOptionWidget::SetTaskText(QString string) {
+  task_text_->setText(string);
+}
+
+void PickAnOptionWidget::SetVariants(int count, std::vector<QString> strings) {
+  layout_->addWidget(task_condition_, 0, 1, 1, count);
+  layout_->addWidget(task_text_, 1, 1, 1, count);
+  // layout_->addWidget(variants_, 1, 1);
+  layout_->addWidget(next_question_button_, 3, 1, 1, count);
+  layout_->addWidget(go_to_main_page_button_, 4, 1, 1, count);
+  layout_->addWidget(check_answer_button_, 5, 1, 1, count);
+  layout_->setColumnStretch(0, 1);
+  layout_->setColumnStretch(count + 1, 1);
+  for (int i = 0; i < count; i++) {
+    auto* button = new QPushButton(strings.at(i));
+    variants_->addButton(button);
+    layout_->addWidget(button, 2, i + 1);
+    layout_->setColumnStretch(i + 1, 8 / count);
+  }
+  variants_->setExclusive(true);
 }

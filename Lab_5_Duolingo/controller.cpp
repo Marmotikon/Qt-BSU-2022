@@ -5,10 +5,19 @@
 #include <QString>
 #include <QMessageBox>
 
+#include "main_page_widget.h"
+#include "pick_an_option_widget.h"
+#include "input_answer_widget.h"
+#include "audio_widget.h"
+
 Controller::Controller() : model_(std::make_unique<Model>()),
     view_(std::make_unique<MainWindow>(this)) {
   view_->show();
-  view_->CreateMenu();
+  ConnectMainPageButtons();
+  ConnectPickAnOptionButtons();
+  ConnectInputAnswerButtons();
+  ConnectAudioButtons();
+  RefreshView();
 }
 
 void Controller::ManageDifficultyMenu(QMenu* difficulty_menu) {
@@ -93,11 +102,9 @@ void Controller::ManageSoundMenu(QMenu* sound_menu) {
   }
 }
 
-void Controller::ManageResetProgressAction(QAction* reset_progress_action) {
+void Controller::ConnectResetProgressAction(QAction* reset_progress_action) {
   connect(reset_progress_action, &QAction::triggered, this,
           &Controller::ShowResetProgressDialog);
-
-  //todo load progress
 }
 
 void Controller::ShowResetProgressDialog() {
@@ -105,7 +112,70 @@ void Controller::ShowResetProgressDialog() {
                                       "Вы уверены, что хотите сбросить текущий прогресс");
   if (answer == QMessageBox::Yes) {
     model_->ResetProgressPoints();
+    view_->SetProgressPoints(model_->GetProgressPoints());
     view_->statusBar()->showMessage("points was reseted");
   }
+}
+
+void Controller::ConnectMainPageButtons() {
+  auto* widget = view_->GetMainPage();
+  connect(widget, &MainPageWidget::PickAnOptionButtonPressed, this, [this] {
+    view_->GoToPickAnOption();
+  });
+  connect(widget, &MainPageWidget::InputAnswerButtonPressed, this, [this] {
+    view_->GoToInputAnswer();
+  });
+  connect(widget, &MainPageWidget::AudioButtonPressed, this, [this] {
+    view_->GoToAudio();
+  });
+  connect(widget, &MainPageWidget::MixedButtonPressed, this, [this] {
+    //todo
+  });
+}
+
+void Controller::ConnectPickAnOptionButtons() {
+  auto* widget = view_->GetPickAnOption();
+  connect(widget, &PickAnOptionWidget::CheckAnswerButtonPressed, this, [this] {
+    model_->AddProgressPoints(1);
+    view_->SetProgressPoints(model_->GetProgressPoints());
+  });
+  connect(widget, &PickAnOptionWidget::NextQuestionButtonPressed, this, [=] {
+    widget->SetTaskCondition("aaaaaaaa");
+    widget->SetTaskText("bbbbbbb");
+    widget->SetVariants(3, {"a", "b", "c"});
+  });
+  connect(widget, &PickAnOptionWidget::GoToMainPageButtonPressed, this, [this] {
+    view_->GoToMainPage();
+  });
+}
+
+void Controller::ConnectInputAnswerButtons() {
+  auto* widget = view_->GetInputAnswer();
+  connect(widget, &InputAnswerWidget::CheckAnswerButtonPressed, this, [this] {
+    //todo
+  });
+  connect(widget, &InputAnswerWidget::NextQuestionButtonPressed, this, [this] {
+    //todo
+  });
+  connect(widget, &InputAnswerWidget::GoToMainPageButtonPressed, this, [this] {
+    view_->GoToMainPage();
+  });
+}
+
+void Controller::ConnectAudioButtons() {
+  auto* widget = view_->GetAudio();
+  connect(widget, &AudioWidget::CheckAnswerButtonPressed, this, [this] {
+    //todo
+  });
+  connect(widget, &AudioWidget::NextQuestionButtonPressed, this, [this] {
+    //todo
+  });
+  connect(widget, &AudioWidget::GoToMainPageButtonPressed, this, [this] {
+    view_->GoToMainPage();
+  });
+}
+
+void Controller::RefreshView() {
+  view_->SetProgressPoints(model_->GetProgressPoints());
 }
 
