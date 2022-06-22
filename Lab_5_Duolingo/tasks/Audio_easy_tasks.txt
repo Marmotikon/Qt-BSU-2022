@@ -1,0 +1,11 @@
+2
+
+I like doing ___.
+1
+:/sounds/i_like_doing.wav
+nothing
+
+Please type some text in this ___.
+1
+:/sounds/pls_type_some_text.wav
+box

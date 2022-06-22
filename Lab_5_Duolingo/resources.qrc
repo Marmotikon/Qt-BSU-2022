@@ -1,0 +1,26 @@
+<RCC>
+    <qresource>
+        <file>tasks/PickAnOption_easy_tasks.txt</file>
+        <file>tasks/PickAnOption_medium_tasks.txt</file>
+        <file>tasks/PickAnOption_hard_tasks.txt</file>
+
+        <file>tasks/InputAnswer_easy_tasks.txt</file>
+        <file>tasks/InputAnswer_medium_tasks.txt</file>
+        <file>tasks/InputAnswer_hard_tasks.txt</file>
+
+        <file>tasks/Audio_easy_tasks.txt</file>
+        <file>tasks/Audio_medium_tasks.txt</file>
+        <file>tasks/Audio_hard_tasks.txt</file>
+
+        <file>images/icon.jpg</file>
+        <file>sounds/answer_is_right.wav</file>
+        <file>sounds/answer_is_wrong.wav</file>
+        <file>sounds/win.wav</file>
+        <file>sounds/lose.wav</file>
+
+        <file>sounds/i_like_doing.wav</file>
+        <file>sounds/pls_type_some_text.wav</file>
+        <file>sounds/i_like_this_project.wav</file>
+        <file>sounds/really_huge_task.wav</file>
+    </qresource>
+</RCC>
