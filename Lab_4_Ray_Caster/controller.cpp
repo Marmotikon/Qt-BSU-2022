@@ -1,6 +1,7 @@
 #include "controller.h"
 
 #include <QLineF>
+#include <algorithm>
 
 const std::vector<Polygon>& Controller::GetPolygons() const {
   return polygons_;

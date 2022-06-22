@@ -17,8 +17,6 @@ void PaintWidget::paintEvent(QPaintEvent*) {
 }
 
 void PaintWidget::Paint(QPainter* painter) const {
-  painter->save();
-
   //background color
   painter->setBrush(Qt::black);
   painter->drawRect(0, 0, 980, 625);
@@ -63,8 +61,6 @@ void PaintWidget::Paint(QPainter* painter) const {
                            polygon.GetVertices().size());
     }
   }
-
-  painter->restore();
 }
 
 void PaintWidget::mousePressEvent(QMouseEvent* event) {
@@ -83,8 +79,6 @@ void PaintWidget::mousePressEvent(QMouseEvent* event) {
     has_current_polygon_ = false;
   }
 
-  QPainter painter(this);
-  Paint(&painter);
   repaint();
 }
 
@@ -94,8 +88,6 @@ void PaintWidget::mouseMoveEvent(QMouseEvent* event) {
   }
   controller_->SetCursorPoint(mapFromGlobal(cursor().pos()));
 
-  QPainter painter(this);
-  Paint(&painter);
   repaint();
 }
 

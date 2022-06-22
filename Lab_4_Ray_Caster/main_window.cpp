@@ -13,6 +13,8 @@ MainWindow::MainWindow() :
     lights_radius_label_(new QLabel("Lights radius:", this)),
     check_box_(new QCheckBox("Enable light in polygons", this))
     {
+  setWindowTitle("Ray Caster 3000");
+
   setMinimumSize(1000, 700);
   resize(1000, 700);
 
