@@ -6,7 +6,7 @@
 #include <QMessageBox>
 
 Controller::Controller() : model_(std::make_unique<Model>(this)),
-    view_(std::make_unique<MainWindow>(this)) {
+    view_(std::make_unique<MainWindow>(this, model_.get())) {
   ConnectMainPageButtons();
   ConnectPickAnOptionButtons();
   ConnectInputAnswerButtons();
@@ -81,7 +81,7 @@ void Controller::ManageSoundMenu(QMenu* sound_menu) {
             view_->Update();
           });
 
-  if (model_->GetSoundMode() == "on") {
+  if (model_->IsSoundOn()) {
     set_sound_on->setChecked(true);
   } else {
     set_sound_off->setChecked(true);
@@ -216,26 +216,6 @@ void Controller::ConnectAudioButtons() {
   connect(widget, &AudioWidget::GoToMainPageButtonPressed, this, [this] {
     view_->GoToMainPage();
   });
-}
-
-bool Controller::IsSoundOn() {
-  return model_->GetSoundMode() == "on";
-}
-
-int Controller::GetProgressPoints() {
-  return model_->GetProgressPoints();
-}
-
-int Controller::GetAttemptsRemained() {
-  return model_->GetAttemptsRemained();
-}
-
-int Controller::GetCurrentCorrectCount() {
-  return model_->GetCurrentCorrectCount();
-}
-
-int Controller::GetCorrectNeeded() {
-  return model_->GetCorrectNeeded();
 }
 
 void Controller::OnCorrect() {

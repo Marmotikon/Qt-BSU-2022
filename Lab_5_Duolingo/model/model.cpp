@@ -18,8 +18,8 @@ void Model::SetSoundMode(QString value) {
   settings_->setValue("sound", value);
 }
 
-QString Model::GetSoundMode() {
-  return settings_->value("sound","on").toString();
+bool Model::IsSoundOn() {
+  return settings_->value("sound","on").toString() == "on";
 }
 
 void Model::AddProgressPoints(int value) {
@@ -36,7 +36,7 @@ int Model::GetProgressPoints() {
 }
 
 QString Model::GetCondition() {
-  return current_task_->GetCondition();
+  return current_task_->GetStatement();
 }
 
 std::vector<QString> Model::GetVariants() {

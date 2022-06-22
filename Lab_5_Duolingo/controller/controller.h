@@ -26,15 +26,6 @@ class Controller : public AbstractController {
   void ConnectInputAnswerButtons();
   void ConnectAudioButtons();
 
-  void PickAnOptionNextTask();
-  void InputAnswerNextTask();
-
-  bool IsSoundOn() override;
-  int GetProgressPoints() override;
-  int GetAttemptsRemained() override;
-  int GetCurrentCorrectCount() override;
-  int GetCorrectNeeded() override;
-
   void OnCorrect() override;
   void OnWrong() override;
   void OnWin() override;

@@ -31,7 +31,7 @@ class Model : public QObject {
   void SetDifficultyMode(const QString& value);
   QString GetDifficultyMode();
   void SetSoundMode(QString value);
-  QString GetSoundMode();
+  bool IsSoundOn();
   void AddProgressPoints(int value);
   void ResetProgressPoints();
   int GetProgressPoints();

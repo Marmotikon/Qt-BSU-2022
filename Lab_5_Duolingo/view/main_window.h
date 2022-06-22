@@ -14,10 +14,11 @@
 #include <QStatusBar>
 
 #include <memory>
+#include <QStackedWidget>
 
 #include "../controller/abstract_controller.h"
+#include "../model/model.h"
 #include "audio_widget.h"
-// #include "constants.h"
 #include "input_answer_widget.h"
 #include "main_page_widget.h"
 #include "pick_an_option_widget.h"
@@ -25,7 +26,7 @@
 class MainWindow : public QMainWindow {
   Q_OBJECT
  public:
-  explicit MainWindow(AbstractController* controller);
+  explicit MainWindow(AbstractController* controller, Model* model);
 
   MainPageWidget* GetMainPage();
   PickAnOptionWidget* GetPickAnOption();
@@ -58,6 +59,7 @@ class MainWindow : public QMainWindow {
   void GoToTaskMode();
 
   AbstractController* controller_;
+  Model* model_;
 
   QLabel* progress_points_;
   QProgressBar* progress_bar_;
@@ -65,6 +67,7 @@ class MainWindow : public QMainWindow {
   QWidget* central_widget_;
   QVBoxLayout* central_layout_;
 
+  QStackedWidget* main_widget_;
   MainPageWidget* main_page_widget_;
   PickAnOptionWidget* pick_an_option_widget_;
   InputAnswerWidget* input_answer_widget_;

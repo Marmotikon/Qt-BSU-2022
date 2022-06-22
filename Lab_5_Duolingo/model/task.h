@@ -9,7 +9,7 @@
 class Task {
  public:
   void LoadTasks(const QString& file_name);
-  QString GetCondition();
+  QString GetStatement();
   std::vector<QString> GetVariants();
   void SwitchToNextTask();
   bool IsAnswerCorrect(const QString& answer);

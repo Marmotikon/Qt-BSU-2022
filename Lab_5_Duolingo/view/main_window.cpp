@@ -8,15 +8,17 @@
 #include "input_answer_widget.h"
 #include "pick_an_option_widget.h"
 
-MainWindow::MainWindow(AbstractController* controller) :
+MainWindow::MainWindow(AbstractController* controller, Model* model) :
     QMainWindow(nullptr), //todo
     controller_(controller),
+    model_(model),
     progress_points_(new QLabel("Набранные очки: ...")),
     progress_bar_(new QProgressBar(this)),
 
     central_widget_(new QWidget(this)),
     central_layout_(new QVBoxLayout()),
 
+    main_widget_(new QStackedWidget()),
     main_page_widget_(new MainPageWidget()),
     pick_an_option_widget_(new PickAnOptionWidget()),
     input_answer_widget_(new InputAnswerWidget()),
@@ -46,10 +48,13 @@ MainWindow::MainWindow(AbstractController* controller) :
 
 void MainWindow::ManageCentralWidget() {
   central_layout_->addWidget(progress_points_);
-  central_layout_->addWidget(main_page_widget_);
-  central_layout_->addWidget(pick_an_option_widget_);
-  central_layout_->addWidget(input_answer_widget_);
-  central_layout_->addWidget(audio_widget_);
+
+  main_widget_->addWidget(main_page_widget_);
+  main_widget_->addWidget(pick_an_option_widget_);
+  main_widget_->addWidget(input_answer_widget_);
+  main_widget_->addWidget(audio_widget_);
+  central_layout_->addWidget(main_widget_);
+
   central_layout_->addWidget(progress_bar_);
   central_layout_->addWidget(attempts_);
   central_layout_->addWidget(exit_);
@@ -102,38 +107,32 @@ void MainWindow::CreateMenu() {
 
 void MainWindow::GoToMainPage() {
   menuBar()->show();
-  main_page_widget_->show();
-  pick_an_option_widget_->hide();
-  input_answer_widget_->hide();
-  audio_widget_->hide();
+  main_widget_->setCurrentWidget(main_page_widget_);
   progress_bar_->hide();
   attempts_->hide();
 }
 
 void MainWindow::GoToPickAnOption() {
   GoToTaskMode();
-  pick_an_option_widget_->show();
+  main_widget_->setCurrentWidget(pick_an_option_widget_);
+
 }
 
 void MainWindow::GoToInputAnswer() {
   GoToTaskMode();
-  input_answer_widget_->show();
+  main_widget_->setCurrentWidget(input_answer_widget_);
 }
 
 void MainWindow::GoToAudio() {
   GoToTaskMode();
-  audio_widget_->show();
+  main_widget_->setCurrentWidget(audio_widget_);
 }
 
 void MainWindow::GoToTaskMode() {
   menuBar()->hide();
-  main_page_widget_->hide();
-  pick_an_option_widget_->hide();
-  input_answer_widget_->hide();
-  audio_widget_->hide();
   progress_bar_->show();
   progress_bar_->setValue(0);
-  progress_bar_->setMaximum(controller_->GetCorrectNeeded());
+  progress_bar_->setMaximum(model_->GetCorrectNeeded());
   attempts_->show();
   Update();
 }
@@ -155,16 +154,16 @@ AudioWidget* MainWindow::GetAudio() {
 }
 
 void MainWindow::Update() {
-  if (controller_->IsSoundOn()) {
+  if (model_->IsSoundOn()) {
     UnmuteSounds();
   } else {
     MuteSounds();
   }
   attempts_->setText("Оставшиеся попытки: "
-      + QString::number(controller_->GetAttemptsRemained()));
+      + QString::number(model_->GetAttemptsRemained()));
   progress_points_->setText("Текущий прогресс: "
-      + QString::number(controller_->GetProgressPoints()));
-  progress_bar_->setValue(controller_->GetCurrentCorrectCount());
+      + QString::number(model_->GetProgressPoints()));
+  progress_bar_->setValue(model_->GetCurrentCorrectCount());
 }
 
 void MainWindow::MuteSounds() {

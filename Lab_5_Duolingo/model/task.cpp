@@ -21,7 +21,7 @@ void Task::LoadTasks(const QString& file_name) {
     }
 }
 
-QString Task::GetCondition() {
+QString Task::GetStatement() {
   return conditions_.at(current_task_index_);
 }
 

@@ -16,12 +16,6 @@ class AbstractController : public QObject {
   virtual void ShowResetProgressDialog() = 0;
   virtual void ShowExitDialog() = 0;
 
-  virtual bool IsSoundOn() = 0;
-  virtual int GetProgressPoints() = 0;
-  virtual int GetAttemptsRemained() = 0;
-  virtual int GetCurrentCorrectCount() = 0;
-  virtual int GetCorrectNeeded() = 0;
-
   virtual void OnCorrect() = 0;
   virtual void OnWrong() = 0;
   virtual void OnWin() = 0;
